@@ -1,5 +1,8 @@
+// @ts-ignore
 import * as log from 'https://deno.land/std/log/mod.ts';
+// @ts-ignore
 import { config } from 'https://deno.land/x/dotenv/mod.ts';
+// @ts-ignore
 import { hmac } from 'https://deno.land/x/hmac@v1.0.2/mod.ts';
 
 const APIKEY: string = config().APIKEY;
