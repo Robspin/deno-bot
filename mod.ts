@@ -1,32 +1,66 @@
-// @ts-ignore
-import * as log from 'https://deno.land/std/log/mod.ts';
-// @ts-ignore
-import { config } from 'https://deno.land/x/dotenv/mod.ts';
-// @ts-ignore
-import { hmac } from 'https://deno.land/x/hmac@v1.0.2/mod.ts';
+// @ts-nocheck
+import { log, Application, send } from './deps.ts';
 
-const APIKEY: string = config().APIKEY;
-const SECRETKEY: string = config().SECRETKEY;
+import api from './api.ts';
 
-const endPoint: string = '/api/v3/account';
-const dataQueryString: string = 'recvWindow=20000&timestamp=' + Date.now();
+const app = new Application();
 
-const signature = hmac('sha256', SECRETKEY, dataQueryString, 'utf8', 'hex');
+const PORT = 8000;
 
-const URL: string = `https://api.binance.com${endPoint}?${dataQueryString}&signature=${signature}`;
+await log.setup({
+   handlers: {
+      console: new log.handlers.ConsoleHandler('INFO')
+   },
+   loggers: {
+      default: {
+         level: 'INFO',
+         handlers: ['console']
+      }
+   }
+});
 
-// log.info(URL);
+app.addEventListener('error', event => {
+   log.error(event.error);
+});
 
-async function getAccountData() {
-   log.info('Fetching Acount Data...');
+app.use(async (ctx, next) => {
+   try {
+      await next();
+   } catch (err) {
+      ctx.response.body = 'Internal server error';
+      throw err;
+   }
+});
 
-   return await fetch(URL, {
-      method: 'GET',
-      headers: { 'X-MBX-APIKEY': APIKEY }
-   })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch((err: any) => console.log(err));
+app.use(async (ctx, next) => {
+   await next();
+   const time = ctx.response.headers.get('X-Response-Time');
+   log.info(`${ctx.request.method} ${ctx.request.url}: ${time}`);
+});
+
+app.use(async (ctx, next) => {
+   const start = Date.now();
+   await next();
+   const delta = Date.now() - start;
+   ctx.response.headers.set('X-Response-Time', `${delta}ms`);
+});
+
+app.use(api.routes());
+app.use(api.allowedMethods());
+
+app.use(async ctx => {
+   const filePath = ctx.request.url.pathname;
+   const fileWhitelist = [];
+   if (fileWhitelist.includes(filePath)) {
+      await send(ctx, filePath, {
+         root: `${Deno.cwd()}/public`
+      });
+   }
+});
+
+if (import.meta.main) {
+   log.info(`Starting server on port ${PORT}....`);
+   await app.listen({
+      port: PORT
+   });
 }
-
-console.log(getAccountData());
