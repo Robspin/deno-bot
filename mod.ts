@@ -50,7 +50,7 @@ app.use(api.allowedMethods());
 
 app.use(async ctx => {
    const filePath = ctx.request.url.pathname;
-   const fileWhitelist = [];
+   const fileWhitelist = ['/index.html'];
    if (fileWhitelist.includes(filePath)) {
       await send(ctx, filePath, {
          root: `${Deno.cwd()}/public`

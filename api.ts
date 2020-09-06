@@ -26,7 +26,7 @@ router.get('/', ctx => {
 ──▐▌░░░░░░░░░░▀▄░░░░░░▄▀
 ─▄▀░░░▄▀░░░░░░░░▀▀▀▀█▀
 ▀░░░▄▀░░░░░░░░░░▀░░░▀▀▀▀▄▄▄▄▄
-      TRADING BOT API`;
+      DRIVE BOT API`;
 });
 
 export default router;
