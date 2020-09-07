@@ -8,3 +8,6 @@ export {
    send,
    Router
 } from 'https://deno.land/x/oak@v5.0.0/mod.ts';
+
+// Currently only works with Deno Version 1.1.3
+// Deno upgrade --version 1.1.3
