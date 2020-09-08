@@ -16,15 +16,21 @@ const URL: string = `https://api.binance.com${endPoint}?${dataQueryString}&signa
 // log.info(URL);
 
 async function getAccountData() {
-   log.info('Fetching Acount Data...');
+   log.info('Fetching Account Data...');
+   let accData = { test: 'test' };
 
    return await fetch(URL, {
       method: 'GET',
       headers: { 'X-MBX-APIKEY': APIKEY }
    })
       .then(response => response.json())
-      .then(data => console.log(data))
+      .then(data => {
+         accData = data;
+         // console.log(accData);
+         log.info('Success');
+         return accData;
+      })
       .catch((err: any) => console.log(err));
 }
 
-console.log(getAccountData());
+export default getAccountData;

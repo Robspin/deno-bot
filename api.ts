@@ -1,7 +1,10 @@
-// @ts-ignore
+// @ts-nocheck
 import { Router } from './deps.ts';
+import getAccountData from './accountData.ts';
 
 const router = new Router();
+
+const accData = await getAccountData();
 
 router.get('/', ctx => {
    ctx.response.body = `
@@ -27,6 +30,10 @@ router.get('/', ctx => {
 ─▄▀░░░▄▀░░░░░░░░▀▀▀▀█▀
 ▀░░░▄▀░░░░░░░░░░▀░░░▀▀▀▀▄▄▄▄▄
       DRIVE BOT API`;
+});
+
+router.get('/account', ctx => {
+   ctx.response.body = [accData.balances[0], accData.balances[2]];
 });
 
 export default router;
