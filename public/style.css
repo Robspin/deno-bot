@@ -1,0 +1,27 @@
+@font-face {
+   font-family: 'alien_encounters_solidregular';
+   src: url('../font/alien-encounters-solid-regular-webfont.woff2')
+         format('woff2'),
+      url('../font/alien-encounters-solid-regular-webfont.woff') format('woff');
+   font-weight: normal;
+   font-style: normal;
+}
+
+* {
+   box-sizing: border-box;
+}
+
+body {
+   margin: 0;
+   color: white;
+   font-family: 'alien_encounters_solidregular';
+   background: url('./images/bg.png') no-repeat;
+   background-size: cover;
+   overflow: hidden;
+   letter-spacing: 1px;
+}
+
+#box {
+   margin-top: 200px;
+   margin-left: 50px;
+}

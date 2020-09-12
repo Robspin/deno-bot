@@ -50,7 +50,14 @@ app.use(api.allowedMethods());
 
 app.use(async ctx => {
    const filePath = ctx.request.url.pathname;
-   const fileWhitelist = ['/index.html', '/script.js'];
+   const fileWhitelist = [
+      '/index.html',
+      '/script.js',
+      '/style.css',
+      '/images/bg.png',
+      '/font/alien-encounters-solid-regular-webfont.woff',
+      '/font/alien-encounters-solid-regular-webfont.woff2'
+   ];
    if (fileWhitelist.includes(filePath)) {
       await send(ctx, filePath, {
          root: `${Deno.cwd()}/public`
