@@ -1,3 +1,17 @@
+const binanceSocket = new WebSocket(
+   'wss://stream.binance.com:9443/ws/btcusdt@ticker'
+);
+
+binanceSocket.onmessage = e => {
+   // console.log(e.data);
+   const message = JSON.parse(e.data);
+   console.log(message.c);
+   setTimeout(() => {
+      const currentPrice = document.getElementById('current-price');
+      currentPrice.innerHTML = `${message.c}`;
+   }, 0);
+};
+
 function loadAccount() {
    return fetch('/account')
       .then(accountResponse => accountResponse.json())
