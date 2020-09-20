@@ -16,16 +16,25 @@ body {
    color: white;
    font-family: 'alien_encounters_solidregular';
    background: url('./images/bg.png') no-repeat;
-   background-size: auto;
-   overflow: hidden;
+   background-size: cover;
    letter-spacing: 1px;
+   width: 100vw;
+   height: 100vh;
 }
 
 .box {
    background: rgba(46, 67, 99, 0.6);
-   overflow: hidden;
    margin-top: 200px;
    margin-left: 50px;
    padding: 25px;
-   width: 350px;
+   width: 360px;
+}
+
+.inline-holder {
+   display: flex;
+}
+
+.drive-ascii {
+   font-size: 10px;
+   color: rgba(233, 176, 255, 0.6);
 }
